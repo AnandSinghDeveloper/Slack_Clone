@@ -7,14 +7,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useCurrentUser } from "../hooks/useCurrentUser";
-import { Loader, LogOut } from "lucide-react";
+import { useCurrentUser } from "../api/useCurrentUser";
+import { TbLoader3 } from "react-icons/tb";
+import { LoaderCircle  , LogOut } from "lucide-react";
 import { useAuthActions } from "@convex-dev/auth/react";
 const UserAvtar = () => {
   const { data, isLoading } = useCurrentUser();
   const { signOut } = useAuthActions();
   if (isLoading)
-    return <Loader className=" size-7 animate-spin text-muted-foreground " />;
+    return <TbLoader3   className=" size-7 animate-spin text-muted-foreground" />;
   if (!data) return null;
 
   const { image, name } = data;

@@ -16,6 +16,7 @@ import type {
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
 import type * as user from "../user.js";
+import type * as workSpaces from "../workSpaces.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -29,6 +30,7 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   http: typeof http;
   user: typeof user;
+  workSpaces: typeof workSpaces;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
