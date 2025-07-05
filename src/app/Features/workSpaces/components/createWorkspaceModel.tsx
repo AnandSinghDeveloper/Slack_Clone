@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { useCreateWorkspaces } from "../api/useCreateWorkspaces";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const CreateWorkspaceModel = () => {
   const router = useRouter();
@@ -30,6 +31,7 @@ const CreateWorkspaceModel = () => {
       name
      },{
       OnSuccess(data) {
+        toast.success("Workspace created successfully");
         handleClose();
         router.replace(`/workspace/${data}`);
         
