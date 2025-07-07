@@ -32,7 +32,7 @@ const WorkspaceSwicher = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
         <Button className="size-9 overflow-hidden relative bg-[#ababad] hover:bg-[#ababad]/80 text-slate-800 text-xl font-semibold ">
           {workspacesLoading ? (
             <TbLoader3 className="animate-spin size-5 shrink-0" />
