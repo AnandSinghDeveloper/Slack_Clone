@@ -38,7 +38,7 @@ const SidebarItem = ({icon : Icon , label, id ,variant }: SidebarItemProps) => {
     variant={"ghost"}
     asChild
     size={"sm"}
-    className={ cn( SidebarItemVerient({variant}) ) }
+    className={ cn( SidebarItemVerient({variant : variant}) ) }
     
     >
       <Link href={`/workspace/${workspaceId}/channel/${id}`} className=" flex items-center gap-2 ">
