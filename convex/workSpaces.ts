@@ -3,6 +3,35 @@ import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 import { auth } from "./auth";
 
+const createCode = mutation({
+  args:{
+    workspaceId : v.id("workspace"),
+    name : v.string()
+  },
+  handler : async (ctx, args)=>{
+  const userId = await auth.getUserId(ctx);
+
+   if(!userId){
+    throw new Error("User not authenticated");
+   }
+   const member = await ctx.db
+      .query("members")
+      .withIndex("by_workspace_id_and_user_id", (q) =>
+        q.eq("workspaceId", args.workspaceId).eq("userId", userId)
+      )
+      .unique();
+
+
+      if(!member || member.role !== "admin"){
+        throw new Error("Unauthorized");
+      }
+      const joinCode = generateCode();
+      await ctx.db.patch(args.workspaceId , {joinCode : joinCode});
+
+      return args.workspaceId
+  }
+}) 
+
 const generateCode = () => {
   const code = Array.from(
     { length: 6 },
