@@ -5,8 +5,10 @@ import {
   DialogTitle,
   DialogContent,
   DialogDescription,
+  DialogClose,
 } from "@/components/ui/dialog";
-import { CopyIcon } from "lucide-react";
+
+import { CopyIcon, RefreshCcw, RefreshCwIcon,  } from "lucide-react";
 import { toast } from "sonner";
 
 interface InviteModelProps {
@@ -20,14 +22,13 @@ const InviteModel = ({ open, setOpen, name, joinCode }: InviteModelProps) => {
   const handleCopy = () => {
     const inviteLink = `${window.location.origin}/join/${joinCode}`;
 
-    navigator.clipboard
-      .writeText(inviteLink)
-      .then(() => {
-        toast.success("Copied to clipboard");
-      })
-      .catch((error) => {
-        toast.error("Failed to copy to clipboard");
-      });
+    navigator.clipboard.writeText(inviteLink).then(() => {
+      toast.success("Copied to clipboard");
+    });
+  };
+
+  const handleNewCode = () => {
+    console.log("new code");
   };
 
   return (
@@ -47,6 +48,21 @@ const InviteModel = ({ open, setOpen, name, joinCode }: InviteModelProps) => {
             Copy Link
             <CopyIcon className="ml-2 h-4 w-4" />
           </Button>
+        </div>
+        <div className="flex justify-between items-center w-full">
+          <Button
+            variant={"outline"}
+            className=""
+            onClick={handleNewCode}
+          >
+            New code
+            <RefreshCwIcon className="ml-2 h-4 w-4" />
+          </Button>
+          <DialogClose asChild>
+            <Button  className="">
+              Close
+            </Button>
+          </DialogClose>
         </div>
       </DialogContent>
     </Dialog>

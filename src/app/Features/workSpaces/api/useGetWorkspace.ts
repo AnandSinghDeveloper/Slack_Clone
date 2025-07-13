@@ -3,7 +3,7 @@ import { api } from "../../../../../convex/_generated/api";
 import { Id } from "../../../../../convex/_generated/dataModel";
 
 interface getUserWorkspaceProps {
-  id : Id<"workspace">
+  id: Id<"workspace">;
 }
 
 export const getUserWorkspace = ({ id }: getUserWorkspaceProps) => {

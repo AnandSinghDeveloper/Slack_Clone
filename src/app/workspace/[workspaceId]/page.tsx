@@ -9,7 +9,7 @@ import { useWorkspaceId } from "@/app/hooks/useWorkspaceId";
 
 const WorkspaceIdpage = () => {
   const workspaceId = useWorkspaceId();
-  const {data}= getUserWorkspace({ id: workspaceId });
+  const {data}= getUserWorkspace({id: workspaceId});
   return <div>workspaceId </div>;
 };
 
