@@ -1,9 +1,7 @@
 import { v } from "convex/values";
 import { query, QueryCtx } from "./_generated/server";
 import { auth } from "./auth";
-import { argv } from "process";
 import { Id } from "./_generated/dataModel";
-import { User } from "lucide-react";
 
 const populateUser = async (ctx: QueryCtx, id: Id<"users">) => {
   return await ctx.db.get(id);
@@ -37,13 +35,12 @@ export const get = query({
 
     for (const member of data) {
       const user = await populateUser(ctx, member.userId);
+      members.push({ ...member, user });
 
-      if (user) {
-        members.push({ ...member, user });
-      }
-
-      return members;
+      
     }
+
+    return members;
   },
 });
 

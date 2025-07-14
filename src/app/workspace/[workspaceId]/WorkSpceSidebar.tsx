@@ -29,6 +29,9 @@ const WorkSpceSidebar = () => {
   const { data: channels, isLoading: channelsLoading } = useGetChannels({ workspaceId});
   const { data: members, isLoading: membersLoading } = useGetMembers({ workspaceId,});
 
+  console.log( members);
+  
+
   if (memberLoading || workspaceLoading) {
     return (
       <div className=" flex flex-col h-full  bg-[#5e2c5f] items-center justify-center">
@@ -69,10 +72,10 @@ const WorkSpceSidebar = () => {
       { 
         members?.map((items) => (
         <UserItem
-        key={items._id}
-        id={items._id}
-        image={items.user.image}
-        label={items.user.name}
+        key={items?._id}
+        id={items?._id}
+        image={items?.user?.image}
+        label={items?.user?.name}
         />
         ))
       }
