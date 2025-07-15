@@ -1,7 +1,7 @@
 "use client";
 
 import { useCuerrntMember } from "@/app/Features/members/api/useCuerrntMember";
-
+import { usechannelId } from "@/app/hooks/usechannelId";
 import { getUserWorkspace } from "@/app/Features/workSpaces/api/useGetWorkspace";
 import { useWorkspaceId } from "@/app/hooks/useWorkspaceId";
 import {
@@ -21,7 +21,7 @@ import { useCreateChannelModalAtom } from "@/app/Features/channels/store/useCret
 
 const WorkSpceSidebar = () => {
   const workspaceId = useWorkspaceId();
-
+  const channelId = usechannelId();
   const [_open, setOpen]= useCreateChannelModalAtom();
 
   const { data: member, isLoading: memberLoading } = useCuerrntMember({workspaceId,});
@@ -65,6 +65,7 @@ const WorkSpceSidebar = () => {
             label={items.name}
             icon={HashIcon}
             id={items._id}
+            variant={channelId === items._id ? "active"  : "default"}
           />
         ))}
       </WorkspaceSection>
@@ -76,6 +77,7 @@ const WorkSpceSidebar = () => {
         id={items?._id}
         image={items?.user?.image}
         label={items?.user?.name}
+        
         />
         ))
       }

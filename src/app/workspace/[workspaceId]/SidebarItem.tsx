@@ -15,7 +15,7 @@ const SidebarItemVerient = cva(
       variants: {
         variant: {
           default: "text-[#f9edffcc]",
-          active: "text-[#481349] bg-white/90 hover:bg-white/90",
+          active: "text-[#481349] bg-white/20 hover:bg-white/30 rounded-sm",
         },
       },
       defaultVariants: {
