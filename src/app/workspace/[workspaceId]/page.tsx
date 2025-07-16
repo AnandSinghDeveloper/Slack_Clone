@@ -54,14 +54,14 @@ const WorkspaceIdpage = () => {
     channelsLoading,
   ]);
 
-  if (workspaceLoading || channelsLoading)
+  if (workspaceLoading || channelsLoading || memberLoading)
     return (
       <div className=" flex flex-col h-full  bg-[#5e2c5f] items-center justify-center">
         <TbLoader3 className="text-white size-5 animate-spin " />
       </div>
     );
 
-  if (!workspace)
+  if (!workspace || !member)
     return (
       <div className=" flex flex-col h-full space-y-1   bg-[#5e2c5f] items-center justify-center">
         <AlertTriangle className="text-white size-5 " />
