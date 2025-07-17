@@ -5,6 +5,7 @@ import { usechannelId } from "@/app/hooks/usechannelId";
 import { TriangleAlert } from "lucide-react";
 import { TbLoader3 } from "react-icons/tb";
 import Header from "./Header";
+import ChatInput from "./ChatInput";
 
 const ChannelId = () => {
   const ChannelId = usechannelId();
@@ -32,6 +33,8 @@ const ChannelId = () => {
   return (
     <div className=" flex flex-col h-full">
       <Header title={channel.name} />
+      <div className=" flex-1"/>
+       <ChatInput />
     </div>
   );
 };
