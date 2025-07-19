@@ -11,9 +11,11 @@ import {
 import { Hint } from "./hint";
 import { Button } from "@/components/ui/button";
 import { PiTextAa } from "react-icons/pi";
-import { ImageIcon, Key, Smile } from "lucide-react";
+import { ImageIcon, Smile, XIcon } from "lucide-react";
 import { MdSend } from "react-icons/md";
 import { cn } from "@/lib/utils";
+import EmojiPopover from "./EmojiPopover";
+import Image from "next/image";
 
 type EditorValue = {
   image: File | null;
@@ -43,9 +45,11 @@ const Editor = ({
   const defaultValueRef = useRef(defaultValue);
   const placeholderRef = useRef(placeholder);
   const disabledRef = useRef(disabled);
+  const imageElementRef = useRef<HTMLInputElement>(null);
 
   const [text, setText] = useState("");
   const [isToolbarVisible, setIsToolbarVisible] = useState(true);
+  const [image, setImage] = useState<File | null>(null);
 
   useLayoutEffect(() => {
     submitRef.current = onSubmit;
@@ -136,12 +140,50 @@ const Editor = ({
     }
   };
 
+  const onEmojiSelect = (emoji: any) => {
+    const quill = quillRef.current;
+
+    quill?.insertText(quill.getSelection()?.index || 0, emoji.native);
+  };
+
   const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
 
   return (
     <div className=" flex flex-col">
+      <input
+        type="file"
+        accept="image/*"
+        ref={imageElementRef}
+        onChange={(e) => {
+          setImage(e.target.files?.[0] || null);
+        }}
+        className="hidden "
+      />
       <div className=" flex flex-col  border border-slate-200 rounded-md focus-within:border-slate-400 overflow-hidden focus-within:shadow-sm bg-white  transition ">
         <div ref={containerRef} className=" h-full ql-custom" />
+        {!!image && (
+          <div className="p-2">
+            <div className=" flex items-center justify-center size-[62px] group/image relative">
+            <Hint label="Remove image">
+              <button
+                onClick={() => {
+                  setImage(null);
+                  imageElementRef.current!.value = "";
+                }}
+                className="hidden group-hover/image:flex absolute -top-2.5  -right-2.5  items-center justify-center bg-black/70 hover:bg-black rounded-full text-white size-6 z-[5] border-2 "
+              >
+                <XIcon className=" size-3.5" />
+              </button>
+            </Hint>
+              <Image
+                src={URL.createObjectURL(image)}
+                alt="Uploaded"
+                fill
+                className="rounded-xl overflow-hidden object-cover border "
+              />
+            </div>
+          </div>
+        )}
         <div className="px-2 pb-2 flex z-[5]">
           <Hint label={isToolbarVisible ? "Hide toolbar" : "Show toolbar"}>
             <Button
@@ -155,24 +197,25 @@ const Editor = ({
             </Button>
           </Hint>
 
-          <Hint label="Emoji">
+          <EmojiPopover onEmojiSelect={onEmojiSelect}>
             <Button
               variant={"ghost"}
               size={"sm"}
               disabled={disabled}
-              onClick={() => {}}
               className="hover:text-accent-foreground hover:bg-accent/90"
             >
               <Smile size={5} />
             </Button>
-          </Hint>
+          </EmojiPopover>
           {varient === "create" && (
             <Hint label="Image">
               <Button
                 variant={"ghost"}
                 size={"sm"}
                 disabled={disabled}
-                onClick={() => {}}
+                onClick={() => {
+                  imageElementRef.current?.click();
+                }}
                 className="hover:text-accent-foreground hover:bg-accent/90"
               >
                 <ImageIcon size={5} />
@@ -208,9 +251,19 @@ const Editor = ({
           )}
         </div>
       </div>
-      <div className=" text-sm p-2 flex justify-end  text-muted-foreground">
-        <strong>Shift + Retrun </strong>&nbsp; to add a new line
-      </div>
+      {varient === "create" && (
+        <div
+          className={cn(
+            "  text-sm p-2 flex justify-end  text-muted-foreground opacity-0 transition",
+            !isEmpty && "opacity-100"
+          )}
+        >
+          <p>
+            {" "}
+            <strong>Shift + Retrun </strong>&nbsp; to add a new line
+          </p>
+        </div>
+      )}
     </div>
   );
 };
