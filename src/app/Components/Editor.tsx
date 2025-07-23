@@ -241,11 +241,12 @@ const Editor = ({
           )}
 
           {varient === "update" && (
-            <div className=" ml-auto gap-x-2 flex items-center bg-[#007a5a] hover:bg-[#007a5a]/90 text-white ] ">
-              <Button variant={"outline"} disabled={false} onClick={onCancel}>
+            <div className=" ml-auto gap-x-2 flex items-center  text-white ] ">
+              <Button className=" text-black" variant={"outline"} disabled={false} onClick={onCancel}>
                 Cancel
               </Button>
               <Button
+              className=" bg-[#007a5a] hover:bg-[#007a5a]/90 text-white"
                 disabled={disabled || isEmpty}
                 onClick={() => {
                   onSubmit({
