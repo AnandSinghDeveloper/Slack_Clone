@@ -9,6 +9,7 @@ import { useState } from "react";
 import { Id } from "../../../convex/_generated/dataModel";
 import { useWorkspaceId } from "../hooks/useWorkspaceId";
 import { useCuerrntMember } from "../Features/members/api/useCuerrntMember";
+import { TbLoader2, TbLoader3 } from "react-icons/tb";
 
 const TIME_THRESHOLD = 10;
 interface MessageListProps {
@@ -46,12 +47,9 @@ const MessageList = ({
   canLoadMore,
 }: MessageListProps) => {
   const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
- 
-
- 
 
   const workspaceId = useWorkspaceId();
-  const { data: CuerrntMember}= useCuerrntMember({workspaceId})
+  const { data: CuerrntMember } = useCuerrntMember({ workspaceId });
   const groupedMessages = data?.reduce(
     (groups, messages) => {
       const date = new Date(messages._creationTime);
@@ -91,10 +89,6 @@ const MessageList = ({
                 new Date(prevMessage._creationTime)
               ) < TIME_THRESHOLD;
 
-            //  console.log("Rendering Message:", message._id, "editingId:", editingId);
-            // console.log("isEditing:", editingId === message._id);
-              
-
             return (
               <Message
                 key={message._id}
@@ -120,6 +114,39 @@ const MessageList = ({
           })}
         </div>
       ))}
+      <div
+        className="h-1"
+        ref={(el) => {
+          if (el) {
+            const observer = new IntersectionObserver(
+              ([entry]) => {
+                if (entry.isIntersecting && canLoadMore) {
+                  loadMore();
+                }
+              },
+              {
+                threshold: 1.0,
+              }
+            );
+
+            observer.observe(el);
+            return () => observer.disconnect();
+          }
+        }}
+      />
+
+      {isLoadingMore && (
+        <div className=" text-center my-2 relative">
+          <hr className="absolute border-t left-0 right-0 top-1/2 border-gray-300" />
+          <span
+            className={
+              "relative inline-block bg-background px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm"
+            }
+          >
+            <TbLoader3 className="animate-spin size-5" />
+          </span>
+        </div>
+      )}
       {variant === "channel" && channelName && channelCreationTime && (
         <ChannelHero name={channelName} creationTime={channelCreationTime} />
       )}

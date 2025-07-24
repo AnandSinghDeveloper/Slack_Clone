@@ -12,6 +12,8 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useRemoveMessage } from "../Features/messages/api/useRemoveMessage";
 import useConfirm from "../hooks/useConfirm";
+import { useReactionToggle } from "../Features/reaction/api/useReactionToggle";
+import Reactions from "./Reactions";
 
 const Renderer = dynamic(() => import("@/app/Components/Renderer"), {
   ssr: false,
@@ -73,10 +75,20 @@ const Message = ({
     useUpadateMessage();
   const { mutate: removeMessage, isPanding: isRemovingMessage } =
     useRemoveMessage();
+  const { mutate: toggleReaction, isPanding: isReacting } = useReactionToggle();
 
   const isPending = isUpadateingMessage;
 
-
+  const handleReaction = (value: string) => {
+    toggleReaction(
+      { messageId: id, value },
+      {
+        OnError: () => {
+          toast.error("Failed to add reaction");
+        },
+      }
+    );
+  };
   const handleRemove = async () => {
     const ok = await confirm();
 
@@ -93,8 +105,7 @@ const Message = ({
         },
       }
     );
-
-  }
+  };
   const handleUpdate = ({ body }: { body: string }) => {
     upadateMessage(
       { id, body },
@@ -118,7 +129,8 @@ const Message = ({
           className={cn(
             "group relative flex items-center gap-2 p-0.5 px-5 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors rounded-lg",
             isEditing && "bg-[#f2c74433] hover:bg-[#f2c74433]",
-            isRemovingMessage && "bg-rose-500/50  transform transition-all scale-y-0 duration-200 origin-bottom "
+            isRemovingMessage &&
+              "bg-rose-500/50  transform transition-all scale-y-0 duration-200 origin-bottom "
           )}
         >
           <div className="flex items-center justify-center gap-2">
@@ -150,6 +162,7 @@ const Message = ({
                     (edited)
                   </span>
                 )}
+                <Reactions  data={reactions} onChange={handleReaction} />
               </div>
             </div>
           )}
@@ -163,7 +176,7 @@ const Message = ({
                 console.log("Setting editingId to", id);
               }}
               handleDelete={handleRemove}
-              handleReaction={() => {}}
+              handleReaction={handleReaction}
               handleThread={() => {}}
               hideThreadButton={hideThreadButton}
             />
@@ -180,7 +193,8 @@ const Message = ({
         className={cn(
           "group relative flex items-center gap-2 p-0.5 px-5 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors rounded-lg",
           isEditing && "bg-[#f2c74433] hover:bg-[#f2c74433]",
-          isRemovingMessage && "bg-rose-500/50  transform transition-all scale-y-0 duration-200 origin-bottom "
+          isRemovingMessage &&
+            "bg-rose-500/50  transform transition-all scale-y-0 duration-200 origin-bottom "
         )}
       >
         <div className="flex-shrink-0">
@@ -226,6 +240,7 @@ const Message = ({
                   ( editied)
                 </span>
               ) : null}
+              <Reactions  data={reactions} onChange={handleReaction} />
             </div>
           </div>
         )}
@@ -240,7 +255,7 @@ const Message = ({
               console.log(" i am ckick");
             }}
             handleDelete={handleRemove}
-            handleReaction={() => {}}
+            handleReaction={handleReaction}
             handleThread={() => {}}
             hideThreadButton={hideThreadButton}
           />
