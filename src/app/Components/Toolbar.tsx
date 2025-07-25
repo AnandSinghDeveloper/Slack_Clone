@@ -53,8 +53,9 @@ const Toolbar = ({
               className=" hover:text-black "
               size={"sm"}
               variant={"ghost"}
+              onClick={handleThread}
             >
-              <MessageSquare className=" size-4" onClick={handleThread} />
+              <MessageSquare className=" size-4"  />
             </Button>
           </Hint>
         )}

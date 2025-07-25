@@ -14,6 +14,7 @@ import { useRemoveMessage } from "../Features/messages/api/useRemoveMessage";
 import useConfirm from "../hooks/useConfirm";
 import { useReactionToggle } from "../Features/reaction/api/useReactionToggle";
 import Reactions from "./Reactions";
+import { usePanel } from "../hooks/usePanel";
 
 const Renderer = dynamic(() => import("@/app/Components/Renderer"), {
   ssr: false,
@@ -67,6 +68,8 @@ const Message = ({
   hideThreadButton,
   setEditingId,
 }: MessageProps) => {
+  const { onOpenMessage, onclose  ,parentMessageId} = usePanel();
+
   const [ConfirmDailog, confirm] = useConfirm(
     "Delete Message",
     "Are you sure you want to delete this message? This action cannot be undone."
@@ -99,6 +102,10 @@ const Message = ({
       {
         OnSuccess: () => {
           toast.success("Message deleted successfully");
+
+          if (parentMessageId === id) {
+                onclose();
+          }
         },
         OnError: () => {
           toast.error("Failed to delete message");
@@ -162,7 +169,7 @@ const Message = ({
                     (edited)
                   </span>
                 )}
-                <Reactions  data={reactions} onChange={handleReaction} />
+                <Reactions data={reactions} onChange={handleReaction} />
               </div>
             </div>
           )}
@@ -177,7 +184,7 @@ const Message = ({
               }}
               handleDelete={handleRemove}
               handleReaction={handleReaction}
-              handleThread={() => {}}
+              handleThread={() => onOpenMessage(id)}
               hideThreadButton={hideThreadButton}
             />
           )}
@@ -240,7 +247,7 @@ const Message = ({
                   ( editied)
                 </span>
               ) : null}
-              <Reactions  data={reactions} onChange={handleReaction} />
+              <Reactions data={reactions} onChange={handleReaction} />
             </div>
           </div>
         )}
@@ -249,14 +256,10 @@ const Message = ({
           <Toolbar
             isPending={isPending}
             isAuthor={isAuthor!}
-            handleEdit={() => {
-              setEditingId(id);
-              console.log("Setting editingId to", id);
-              console.log(" i am ckick");
-            }}
+            handleEdit={() => setEditingId(id)}
             handleDelete={handleRemove}
             handleReaction={handleReaction}
-            handleThread={() => {}}
+            handleThread={() => onOpenMessage(id)}
             hideThreadButton={hideThreadButton}
           />
         )}

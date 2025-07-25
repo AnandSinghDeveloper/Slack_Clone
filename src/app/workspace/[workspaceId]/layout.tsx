@@ -9,6 +9,9 @@ import Sidebar from "./Sidebar";
 import Toolbar from "./Toolbar";
 import WorkSpceSidebar from "./WorkSpceSidebar";
 import { usePanel } from "@/app/hooks/usePanel";
+import { TbLoader3 } from "react-icons/tb";
+import Thread from "@/app/Features/messages/components/Thread";
+import { Id } from "../../../../convex/_generated/dataModel";
 
 interface WorkspaceLayoutProps {
   children: React.ReactNode;
@@ -35,12 +38,21 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
           <ResizableHandle withHandle />
           <ResizablePanel minSize={20}>{children}</ResizablePanel>
           {showPanel && (
-           <>
-            <ResizableHandle withHandle />
-            <ResizablePanel minSize={20} defaultSize={29} className="">
-             load moere
-            </ResizablePanel>
-           </>
+            <>
+              <ResizableHandle withHandle />
+              <ResizablePanel minSize={20} defaultSize={27} className="">
+                {parentMessageId ? (
+                  <Thread
+                  messageId={parentMessageId as Id<"messages">}
+                  onclose={onclose}
+                  />
+                ) : (
+                  <div className=" h-full flex items-center justify-center">
+                    <TbLoader3 className=" animate-spin size-5 text-muted-foreground" />
+                  </div>
+                )}
+              </ResizablePanel>
+            </>
           )}
         </ResizablePanelGroup>
       </div>
