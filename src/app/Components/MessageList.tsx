@@ -50,6 +50,7 @@ const MessageList = ({
 
   const workspaceId = useWorkspaceId();
   const { data: CuerrntMember } = useCuerrntMember({ workspaceId });
+  
   const groupedMessages = data?.reduce(
     (groups, messages) => {
       const date = new Date(messages._creationTime);

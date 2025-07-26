@@ -18,6 +18,7 @@ interface ChatInputProps {
   placeholder: string;
 }
 
+const TIME_THRESHOLD = 10;
 type CreateMessageValues = {
   workspaceId: Id<"workspace">;
   channelId: Id<"channels">;

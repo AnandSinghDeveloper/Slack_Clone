@@ -68,7 +68,7 @@ const Message = ({
   hideThreadButton,
   setEditingId,
 }: MessageProps) => {
-  const { onOpenMessage, onclose  ,parentMessageId} = usePanel();
+  const { onOpenMessage, onclose, parentMessageId } = usePanel();
 
   const [ConfirmDailog, confirm] = useConfirm(
     "Delete Message",
@@ -104,7 +104,7 @@ const Message = ({
           toast.success("Message deleted successfully");
 
           if (parentMessageId === id) {
-                onclose();
+            onclose();
           }
         },
         OnError: () => {
@@ -193,7 +193,7 @@ const Message = ({
     );
   }
 
-  return (
+ return (
     <>
       <ConfirmDailog />
       <div
@@ -204,10 +204,13 @@ const Message = ({
             "bg-rose-500/50  transform transition-all scale-y-0 duration-200 origin-bottom "
         )}
       >
-        <div className="flex-shrink-0">
-          <Avatar className="h-9 w-9 rounded-lg ">
-            <AvatarImage className="rounded-lg" src={authorImage} />
-            <AvatarFallback className="rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 text-white font-medium">
+        <div className="flex-shrink-0 self-start mt-0.5">
+          <Avatar className="h-10 w-10 rounded-xl border-2 border-white dark:border-gray-700 shadow-sm ring-2 ring-gray-100 dark:ring-gray-800 transition-all duration-200 hover:shadow-md hover:ring-gray-200 dark:hover:ring-gray-600">
+            <AvatarImage 
+              className="rounded-xl object-cover" 
+              src={authorImage} 
+            />
+            <AvatarFallback className="rounded-xl bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-600 text-white font-semibold text-sm shadow-inner">
               {authorName.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>

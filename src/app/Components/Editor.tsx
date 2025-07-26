@@ -76,12 +76,12 @@ const Editor = ({
         toolbar: [
           ["bold", "italic", "underline", "strike"],
           ["link"],
-          ["blockquote", "code-block"],
+          // [ "code-block"],
           [{ list: "ordered" }, { list: "bullet" }],
-          [{ script: "sub" }, { script: "super" }],
-          [{ indent: "-1" }, { indent: "+1" }],
+          // [{ script: "sub" }, { script: "super" }],
+          // [{ indent: "-1" }, { indent: "+1" }],
           [{ color: [] }, { background: [] }],
-          [{ align: [] }],
+          // [{ align: [] }],
         ],
         keyboard: {
           bindings: {
