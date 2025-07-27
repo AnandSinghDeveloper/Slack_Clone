@@ -1,6 +1,6 @@
 "use client";
 
-import { Joan } from "next/font/google";
+
 import { useGetMessagesRequestType } from "../Features/messages/api/useGetMessages";
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
 import Message from "./Message";
@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Id } from "../../../convex/_generated/dataModel";
 import { useWorkspaceId } from "../hooks/useWorkspaceId";
 import { useCuerrntMember } from "../Features/members/api/useCuerrntMember";
-import { TbLoader2, TbLoader3 } from "react-icons/tb";
+import {  TbLoader3 } from "react-icons/tb";
 
 const TIME_THRESHOLD = 10;
 interface MessageListProps {
@@ -40,7 +40,7 @@ const MessageList = ({
   memberImage,
   channelName,
   channelCreationTime,
-  variant = "channel",
+  variant = "channel" ,
   data,
   loadMore,
   isLoadingMore,

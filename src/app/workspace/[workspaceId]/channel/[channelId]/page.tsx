@@ -8,6 +8,7 @@ import Header from "./Header";
 import ChatInput from "./ChatInput";
 import { useGetMessages } from "@/app/Features/messages/api/useGetMessages";
 import MessageList from "@/app/Components/MessageList";
+import { log } from "node:console";
 
 const ChannelId = () => {
 
@@ -15,6 +16,8 @@ const ChannelId = () => {
   const ChannelId = usechannelId();
   const {results , status , loadMore}= useGetMessages({channelId: ChannelId});
  
+  console.log(results);
+  
   
 
   
