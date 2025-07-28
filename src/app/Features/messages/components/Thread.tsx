@@ -229,6 +229,7 @@ const Thread = ({ messageId, onclose }: ThreadProps) => {
                   updatedAt={message.updatedAt}
                   createdAt={message._creationTime}
                   threadCount={message.threadCount}
+                  threadName={message.threadName}
                   threadImage={message.threadImage}
                   theadTimeStamp={message.threadTimeStamp}
                   hideThreadButton

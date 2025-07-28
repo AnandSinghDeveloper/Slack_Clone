@@ -10,6 +10,7 @@ import { Id } from "../../../convex/_generated/dataModel";
 import { useWorkspaceId } from "../hooks/useWorkspaceId";
 import { useCuerrntMember } from "../Features/members/api/useCuerrntMember";
 import {  TbLoader3 } from "react-icons/tb";
+import ConversationHero from "./ConversationHero";
 
 const TIME_THRESHOLD = 10;
 interface MessageListProps {
@@ -103,6 +104,7 @@ const MessageList = ({
                 updatedAt={message.updatedAt}
                 createdAt={message._creationTime}
                 threadCount={message.threadCount}
+                threadName={message.threadName}
                 threadImage={message.threadImage}
                 theadTimeStamp={message.threadTimeStamp}
                 hideThreadButton={variant === "thread"}
@@ -150,6 +152,12 @@ const MessageList = ({
       )}
       {variant === "channel" && channelName && channelCreationTime && (
         <ChannelHero name={channelName} creationTime={channelCreationTime} />
+      )}
+      {variant === "conversation" &&  (
+        <ConversationHero 
+        memberName={memberName}
+        memberImage={memberImage}
+        />
       )}
     </div>
   );

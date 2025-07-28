@@ -15,6 +15,8 @@ import useConfirm from "../hooks/useConfirm";
 import { useReactionToggle } from "../Features/reaction/api/useReactionToggle";
 import Reactions from "./Reactions";
 import { usePanel } from "../hooks/usePanel";
+import ThreadBar from "./ThreadBar";
+import { threadId } from "worker_threads";
 
 const Renderer = dynamic(() => import("@/app/Components/Renderer"), {
   ssr: false,
@@ -46,6 +48,7 @@ interface MessageProps {
   theadTimeStamp?: number;
   threadCount?: number;
   threadImage?: string;
+  threadName?: string;
 }
 
 const Formatfulltime = (date: Date) => {
@@ -67,6 +70,11 @@ const Message = ({
   isCompact,
   hideThreadButton,
   setEditingId,
+  theadTimeStamp,
+  threadCount,
+  threadImage,
+  threadName,
+
 }: MessageProps) => {
   const { onOpenMessage, onclose, parentMessageId } = usePanel();
 
@@ -170,6 +178,13 @@ const Message = ({
                   </span>
                 )}
                 <Reactions data={reactions} onChange={handleReaction} />
+                <ThreadBar
+                  count={  threadCount}
+                  image={threadImage} 
+                  name={threadName}
+                  timeStamp={theadTimeStamp}
+                  onClick={() => onOpenMessage(id)}
+                />
               </div>
             </div>
           )}
@@ -251,6 +266,13 @@ const Message = ({
                 </span>
               ) : null}
               <Reactions data={reactions} onChange={handleReaction} />
+               <ThreadBar
+                  count={threadCount}
+                  image={threadImage}
+                   name={threadName}
+                  timeStamp={theadTimeStamp}
+                  onClick={() => onOpenMessage(id)}
+                />
             </div>
           </div>
         )}
