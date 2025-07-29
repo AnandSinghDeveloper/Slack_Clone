@@ -16,7 +16,7 @@ const ChannelId = () => {
   const ChannelId = usechannelId();
   const {results , status , loadMore}= useGetMessages({channelId: ChannelId});
  
-  console.log(results);
+ 
   
   
 

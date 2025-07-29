@@ -16,7 +16,7 @@ import { useReactionToggle } from "../Features/reaction/api/useReactionToggle";
 import Reactions from "./Reactions";
 import { usePanel } from "../hooks/usePanel";
 import ThreadBar from "./ThreadBar";
-import { threadId } from "worker_threads";
+
 
 const Renderer = dynamic(() => import("@/app/Components/Renderer"), {
   ssr: false,
@@ -76,7 +76,7 @@ const Message = ({
   threadName,
 
 }: MessageProps) => {
-  const { onOpenMessage, onclose, parentMessageId } = usePanel();
+  const { onOpenMessage, onclose,onOpenProfile, parentMessageId } = usePanel();
 
   const [ConfirmDailog, confirm] = useConfirm(
     "Delete Message",
@@ -88,7 +88,7 @@ const Message = ({
     useRemoveMessage();
   const { mutate: toggleReaction, isPanding: isReacting } = useReactionToggle();
 
-  const isPending = isUpadateingMessage;
+  const isPending = isUpadateingMessage ||isReacting;
 
   const handleReaction = (value: string) => {
     toggleReaction(
@@ -220,7 +220,7 @@ const Message = ({
         )}
       >
         <div className="flex-shrink-0 self-start mt-0.5">
-          <Avatar className="h-10 w-10 rounded-xl border-2 border-white dark:border-gray-700 shadow-sm ring-2 ring-gray-100 dark:ring-gray-800 transition-all duration-200 hover:shadow-md hover:ring-gray-200 dark:hover:ring-gray-600">
+          <Avatar onClick={() => onOpenProfile(memberId)} className="h-10 w-10 rounded-xl border-2 border-white dark:border-gray-700 shadow-sm ring-2 ring-gray-100 dark:ring-gray-800 transition-all duration-200 hover:shadow-md hover:ring-gray-200 dark:hover:ring-gray-600">
             <AvatarImage 
               className="rounded-xl object-cover" 
               src={authorImage} 
@@ -244,7 +244,7 @@ const Message = ({
           <div className="flex-1 min-w-0">
             <div className="flex items-baseline gap-2">
               <button
-                onClick={() => {}}
+                onClick={() => onOpenProfile(memberId)}
                 className="text-sm font-semibold text-gray-900 dark:text-white hover:underline"
               >
                 {authorName}
