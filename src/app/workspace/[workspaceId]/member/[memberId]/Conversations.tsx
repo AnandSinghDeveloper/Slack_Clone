@@ -19,7 +19,7 @@ const Conversations = ({ id }: ConversationsProps) => {
   const { data: member, isLoading: memberLoading } = useGetMember({ id: memberId });
   const { results, status, loadMore } = useGetMessages({  conversationId:id });
 
-  console.log(results);
+ 
   
 
   if (memberLoading || status === "LoadingFirstPage") {

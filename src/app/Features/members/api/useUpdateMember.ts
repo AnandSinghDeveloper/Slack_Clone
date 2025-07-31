@@ -15,7 +15,7 @@ type Options = {
   throwOnError?: boolean;
 };
 
-export const useUpadateMessage = () => {
+export const useUpadateMember = () => {
   const [data, setData] = useState<ResponseType>(null);
   const [error, setError] = useState<Error | null>(null);
 

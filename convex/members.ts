@@ -162,7 +162,7 @@ export const remove = mutation({
       throw new Error("Admin cannot be removed");
     }
 
-    if (CurrentMember._id || CurrentMember.role !== "admin") {
+    if (CurrentMember._id == args.id && CurrentMember.role == "admin") {
       throw new Error(" cannot remove yourself as admin");
     }
 
