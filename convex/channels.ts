@@ -2,7 +2,6 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { auth } from "./auth";
 
-
 export const remove = mutation({
   args: {
     id: v.id("channels"),
@@ -29,6 +28,17 @@ export const remove = mutation({
 
     if (!member || member.role !== "admin") {
       throw new Error("Unauthorized");
+    }
+
+    const [messages] = await Promise.all([
+      ctx.db
+        .query("messages")
+        .withIndex("by_channel_id", (q) => q.eq("channelId", channel._id))
+        .collect(),
+    ]);
+
+    for (const message of messages) {
+      await ctx.db.delete(message._id);
     }
 
     await ctx.db.delete(args.id);
@@ -68,9 +78,7 @@ export const update = mutation({
 
     await ctx.db.patch(args.id, { name: args.name });
 
-    return args.id
-   
-    
+    return args.id;
   },
 });
 
